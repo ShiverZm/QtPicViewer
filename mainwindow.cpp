@@ -13,7 +13,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-
+    m_pImageFrame = new QImage();
 //    QObject::connect(this,&MainWindow::SendLoadImage,
 //        this, &MainWindow::onLoadImage);
 }
@@ -52,16 +52,30 @@ void MainWindow::onSelectFile()
 {
     QString fileName = QFileDialog::getOpenFileName(this,
                                        tr("Open Image"), ".",
-                                       tr("Image files (*.jpg)"));
+                                       tr("Image files (*.jpg | *.png)"));
     if (!fileName.isEmpty()){
         ui->m_pLEditPicPath->setText(fileName);
 
-        //emit SendLoadImage();
+        if( m_pImageFrame->load(fileName))
+        {
+//            int width = m_pImageFrame->width();
+//            int height = m_pImageFrame->height();
+//            QString str = "width";
+//            str.append(":");
+//            str.append(QString::number(width));
+//            str.append(",");
+//            str.append("height:");
+//            str.append(QString::number(height));
+//            QMessageBox::information(NULL, "Tip", str,
+//                                     QMessageBox::Ok);
+        }
     }
 }
 
 void MainWindow::onScaleUp()
 {
+   // QImage show_frame = m_pImageFrame->scaled(640,720);
+
     QMessageBox::information(NULL, "Tip", "onScaleUp",
                              QMessageBox::Ok);
 }
@@ -90,6 +104,46 @@ void MainWindow::onLoadImage()
       return;
     }
 
+/////////////////////////平移示例///////////////////
+
+    QPainter painter(ui->m_pGLWPicShow);
+    QImage show_frame = m_pImageFrame->scaled(100,100);
+
+    painter.translate(100,100); //将（100，100）设为坐标原点
+
+    QRect rect(0,0,100,100);
+
+    painter.drawImage(rect,show_frame);
+
+/////////////////////////image crop示例///////////////////
+/*
+      QPainter painter(ui->m_pGLWPicShow);
+      QRect rect(0,100,200,200);
+//      QRect cropRect(0,0,270,270);
+//      painter.setClipRect(cropRect,Qt::ReplaceClip);
+
+      QImage show_frame = m_pImageFrame->copy(0,0,300,250);
+      painter.drawImage(rect,show_frame);
+*/
+/////////////////////////rotate示例///////////////////
+  /*
+    QPainter painter(ui->m_pGLWPicShow);
+    QImage show_frame = m_pImageFrame->scaled(100,100);
+    QRect rect(0,100,200,200);
+    painter.rotate(-15);
+    painter.drawImage(rect,show_frame);
+    */
+/////////////////////////scale示例///////////////////
+    /*
+     QPainter painter(ui->m_pGLWPicShow);
+    QImage show_frame = m_pImageFrame->scaled(640,720);
+    QPixmap pix = QPixmap::fromImage(show_frame);
+
+    painter.drawPixmap(0,0,640,720,pix);
+    */
+/////////////////////////////////////////下面是自创的////////////////////////////
+
+    /*
 //    QMessageBox::information(NULL, "Tip", "onLoadImage",
 //                             QMessageBox::Ok);
 
@@ -104,7 +158,6 @@ void MainWindow::onLoadImage()
 
     QPixmap pix;
     pix.load(ui->m_pLEditPicPath->text());
-    pix.size()
 
     int nWidgetWidth = ui->m_pGLWPicShow->width();
     int nWidgetHeight =ui->m_pGLWPicShow->height();
@@ -122,11 +175,14 @@ void MainWindow::onLoadImage()
         nShowWidth =  nWHRate * nWidgetHeight;
     }
 
+
     int posX = nWidgetWidth / 2 - nShowWidth/2;
     int posY = 0;
 
     painter.drawPixmap(posX,posY,nShowWidth,nShowHeight,pix);
     //ui->m_pGLWPicShow->update();
+
+    */
 }
 
 

@@ -4,7 +4,7 @@
 #include <QMainWindow>
 
 #include <QMenu>
-
+#include <QImage>
 namespace Ui {
 class MainWindow;
 }
@@ -33,6 +33,7 @@ public slots:
 private:
     Ui::MainWindow *ui;
     QMenu *m_pRClickMenu;
+    QImage* m_pImageFrame;
 };
 
 #endif // MAINWINDOW_H
