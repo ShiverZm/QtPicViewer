@@ -27,11 +27,13 @@ CONFIG += c++11
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    mypicviewwidget.cpp
+    mypicviewwidget.cpp \
+    imageview.cpp
 
 HEADERS += \
         mainwindow.h \
-    mypicviewwidget.h
+    mypicviewwidget.h \
+    imageview.h
 
 FORMS += \
         mainwindow.ui
