@@ -7,7 +7,7 @@
 class MyPicViewWidget : public QOpenGLWidget
 {
 public:
-    MyPicViewWidget();
+    explicit MyPicViewWidget(QWidget *parent = nullptr);
 };
 
 #endif // MYPICVIEWWIDGET_H

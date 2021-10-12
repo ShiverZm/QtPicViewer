@@ -1,11 +1,8 @@
 #include "mypicviewwidget.h"
 #include <QPainter>
-#include <QLine>
+#include <QWidget>
 
-MyPicViewWidget::MyPicViewWidget()
+MyPicViewWidget::MyPicViewWidget(QWidget *parent) : QOpenGLWidget(parent)
 {
-    QPainter painter(this);
 
-    painter.setPen(Qt::red);
-    painter.drawLine(0,50,50,50);
 }

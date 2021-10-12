@@ -16,6 +16,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     m_pImageFrame = new QImage();
 
+    ui->m_pLabelPicShow->stackUnder(ui->horizontalWidget);
+
     QObject::connect(this,&MainWindow::SendLoadImage,
         this, &MainWindow::onLoadImage);
 
@@ -63,25 +65,25 @@ void MainWindow::contextMenuEvent(QContextMenuEvent *event)
 
 }
 
-//void MainWindow::paintEvent(QPaintEvent *event)
-//{
+void MainWindow::paintEvent(QPaintEvent *event)
+{
 
-//    if(ui->m_pLEditPicPath->text().isEmpty()){
-//      return;
-//    }
+    if(ui->m_pLEditPicPath->text().isEmpty()){
+      return;
+    }
 
-//    if(m_CurrentAction == MainWindow::LoadImageAction){
-//        onLoadImageAction();
-//    }else if(m_CurrentAction == MainWindow::ScaleUpAction){
-//        onScaleUpAction();
-//    }else if(m_CurrentAction == MainWindow::ScaleDownAction){
-//        onScaleDownAction();
-//    }else if(m_CurrentAction == MainWindow::RotateLeftAction){
-//        onRotateLeftAction();
-//    }else if(m_CurrentAction == MainWindow::RotateRightAction){
-//        onRotateRightAction();
-//    }
-//}
+    if(m_CurrentAction == MainWindow::LoadImageAction){
+        onLoadImageAction();
+    }else if(m_CurrentAction == MainWindow::ScaleUpAction){
+        onScaleUpAction();
+    }else if(m_CurrentAction == MainWindow::ScaleDownAction){
+        onScaleDownAction();
+    }else if(m_CurrentAction == MainWindow::RotateLeftAction){
+        onRotateLeftAction();
+    }else if(m_CurrentAction == MainWindow::RotateRightAction){
+        onRotateRightAction();
+    }
+}
 
 void MainWindow::mouseMoveEvent(QMouseEvent *event)
 {
