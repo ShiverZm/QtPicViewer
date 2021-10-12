@@ -15,6 +15,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     m_pImageFrame = new QImage();
+
     QObject::connect(this,&MainWindow::SendLoadImage,
         this, &MainWindow::onLoadImage);
 
@@ -22,7 +23,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     m_ZoomValue = 1.0f;
     m_RotateValue = 0;
-
+    m_XPtInterval = 0;
+    m_YPtInterval = 0;
 
     m_pScaleUpAction = new QAction(this);
     m_pScaleDownAction = new QAction(this);
@@ -61,40 +63,54 @@ void MainWindow::contextMenuEvent(QContextMenuEvent *event)
 
 }
 
-void MainWindow::paintEvent(QPaintEvent *event)
-{
+//void MainWindow::paintEvent(QPaintEvent *event)
+//{
 
-    if(ui->m_pLEditPicPath->text().isEmpty()){
-      return;
-    }
+//    if(ui->m_pLEditPicPath->text().isEmpty()){
+//      return;
+//    }
 
-    if(m_CurrentAction == MainWindow::LoadImageAction){
-        //onLoadImageAction();
-
-    }else if(m_CurrentAction == MainWindow::ScaleUpAction){
-        onScaleUpAction();
-    }else if(m_CurrentAction == MainWindow::ScaleDownAction){
-        onScaleDownAction();
-    }else if(m_CurrentAction == MainWindow::RotateLeftAction){
-        onRotateLeftAction();
-    }else if(m_CurrentAction == MainWindow::RotateRightAction){
-        onRotateRightAction();
-    }
-}
+//    if(m_CurrentAction == MainWindow::LoadImageAction){
+//        onLoadImageAction();
+//    }else if(m_CurrentAction == MainWindow::ScaleUpAction){
+//        onScaleUpAction();
+//    }else if(m_CurrentAction == MainWindow::ScaleDownAction){
+//        onScaleDownAction();
+//    }else if(m_CurrentAction == MainWindow::RotateLeftAction){
+//        onRotateLeftAction();
+//    }else if(m_CurrentAction == MainWindow::RotateRightAction){
+//        onRotateRightAction();
+//    }
+//}
 
 void MainWindow::mouseMoveEvent(QMouseEvent *event)
 {
+    if (!m_Pressed){
+        return QWidget::mouseMoveEvent(event);
+    }
 
+    this->setCursor(Qt::SizeAllCursor);
+    QPoint pos = event->pos();
+    int xPtInterval = pos.x() - m_OldPos.x();
+    int yPtInterval = pos.y() - m_OldPos.y();
+
+    m_XPtInterval += xPtInterval;
+    m_YPtInterval += yPtInterval;
+
+    m_OldPos = pos;
+    this->update();
 }
 
 void MainWindow::mousePressEvent(QMouseEvent *event)
 {
-
+    m_OldPos = event->pos();
+    m_Pressed = true;
 }
 
 void MainWindow::mouseReleaseEvent(QMouseEvent *event)
 {
-
+    m_Pressed = false;
+    this->setCursor(Qt::ArrowCursor);
 }
 
 void MainWindow::wheelEvent(QWheelEvent *event)
@@ -107,7 +123,7 @@ void MainWindow::wheelEvent(QWheelEvent *event)
         onScaleDown();
     }
 
-    ui->m_pLabelPicShow->update();
+
 }
 
 void MainWindow::onSelectFile()
@@ -131,9 +147,9 @@ void MainWindow::onSelectFile()
 //            QMessageBox::information(NULL, "Tip", str,
 //                                     QMessageBox::Ok);
 
-
-            //emit SendLoadImage();
             m_CurrentAction = MainWindow::LoadImageAction;
+
+            emit SendLoadImage();
         }
     }
 }
@@ -142,18 +158,19 @@ void MainWindow::onScaleUp()
 {
    // QImage show_frame = m_pImageFrame->scaled(640,720);
 
-    QMessageBox::information(NULL, "Tip", "onScaleUp",
-                             QMessageBox::Ok);
+    //QMessageBox::information(NULL, "Tip", "onScaleUp",QMessageBox::Ok);
 
     m_CurrentAction = MainWindow::ScaleUpAction;
 
     m_ZoomValue += 0.2;
+
+    ui->m_pLabelPicShow->update();
 }
 
 void MainWindow::onScaleDown()
 {
-    QMessageBox::information(NULL, "Tip", "onScaleDown",
-                             QMessageBox::Ok);
+//    QMessageBox::information(NULL, "Tip", "onScaleDown",QMessageBox::Ok);
+
 
     m_CurrentAction = MainWindow::ScaleDownAction;
 
@@ -161,14 +178,14 @@ void MainWindow::onScaleDown()
      if (m_ZoomValue <= 0)
      {
          m_ZoomValue += 0.2;
-         return;
      }
+
+     ui->m_pLabelPicShow->update();
 }
 
 void MainWindow::onRotateRight()
 {
-    QMessageBox::information(NULL, "Tip", "onRotateRight",
-                             QMessageBox::Ok);
+//    QMessageBox::information(NULL, "Tip", "onRotateRight",QMessageBox::Ok);
 
     m_CurrentAction = MainWindow::RotateRightAction;
 
@@ -178,8 +195,7 @@ void MainWindow::onRotateRight()
 
 void MainWindow::onRotateLeft()
 {
-    QMessageBox::information(NULL, "Tip", "onRotateLeft",
-                             QMessageBox::Ok);
+//    QMessageBox::information(NULL, "Tip", "onRotateLeft",QMessageBox::Ok);
 
     m_CurrentAction = MainWindow::RotateLeftAction;
 
@@ -334,8 +350,7 @@ void MainWindow::onScaleUpAction()
     height = qMin(height, ui->m_pLabelPicShow->height());
     width = height * 1.0 * (m_pImageFrame->width() * 1.0 / m_pImageFrame->height());
 
-    int m_XPtInterval = 0;
-    int m_YPtInterval = 0;
+
     // 平移
     painter.translate(ui->m_pLabelPicShow->width() / 2 + m_XPtInterval, ui->m_pLabelPicShow->height() / 2 + m_YPtInterval);
 

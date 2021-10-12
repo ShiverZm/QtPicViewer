@@ -144,9 +144,12 @@
        <property name="sizeConstraint">
         <enum>QLayout::SetDefaultConstraint</enum>
        </property>
-       <item>
-        <widget class="QOpenGLWidget" name="m_pLabelPicShow"/>
-       </item>
+<!--       <item>
+        <widget class="ImageView" name="m_pLabelPicShow" native="true"/>
+       </item>-->
+        <item>
+       <widget class="QOpenGLWidget" name="m_pLabelPicShow" />
+      </item>-->
       </layout>
      </widget>
     </item>
@@ -253,6 +256,14 @@
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>ImageView</class>
+   <extends>QWidget</extends>
+   <header>imageview.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections>
   <connection>

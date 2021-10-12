@@ -64,6 +64,11 @@ private:
     QAction* m_pScaleDownAction;
     QAction* m_pRotateRightAction;
     QAction* m_pRotateLeftAction;
+
+    int m_XPtInterval;
+    int m_YPtInterval;
+    QPoint m_OldPos;
+    bool m_Pressed = false;
 };
 
 #endif // MAINWINDOW_H
