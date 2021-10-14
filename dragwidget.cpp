@@ -17,20 +17,28 @@ void DragWidget::mousePressEvent(QMouseEvent *event)
 void DragWidget::mouseMoveEvent(QMouseEvent *event)
 {
 
-    if(event->buttons() == Qt::LeftButton){
+    if(event->buttons() == Qt::LeftButton)
+    {
             this->move(this->mapToParent(event->pos() - this->pressPoint));
 
             //防止按钮移出父窗口
-            if(this->mapToParent(this->rect().topLeft()).x() <= 0){
+            if(this->mapToParent(this->rect().topLeft()).x() <= 0)
+            {
                 this->move(0, this->pos().y());
             }
-            if(this->mapToParent(this->rect().bottomRight()).x() >= this->parentWidget()->rect().width()){
+
+            if(this->mapToParent(this->rect().bottomRight()).x() >= this->parentWidget()->rect().width())
+            {
                 this->move(this->parentWidget()->rect().width() - this->width(), this->pos().y());
             }
-            if(this->mapToParent(this->rect().topLeft()).y() <= 0){
+
+            if(this->mapToParent(this->rect().topLeft()).y() <= 0)
+            {
                 this->move(this->pos().x(), 0);
             }
-            if(this->mapToParent(this->rect().bottomRight()).y() >= this->parentWidget()->rect().height()){
+
+            if(this->mapToParent(this->rect().bottomRight()).y() >= this->parentWidget()->rect().height())
+            {
                 this->move(this->pos().x(), this->parentWidget()->rect().height() - this->height());
             }
     }

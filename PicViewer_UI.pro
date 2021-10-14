@@ -28,12 +28,12 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
     dragwidget.cpp \
-    mypicviewwidget.cpp
+    picdisplaywidget.cpp
 
 HEADERS += \
         mainwindow.h \
     dragwidget.h \
-    mypicviewwidget.h
+    picdisplaywidget.h
 
 FORMS += \
         mainwindow.ui

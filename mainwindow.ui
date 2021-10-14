@@ -157,14 +157,7 @@
      </widget>
     </item>
     <item>
-     <widget class="QOpenGLWidget" name="m_pLabelPicShow">
-      <property name="minimumSize">
-       <size>
-        <width>0</width>
-        <height>753</height>
-       </size>
-      </property>
-     </widget>
+     <widget class="PicDisplayWidget" name="m_pLabelPicShow" native="true"/>
     </item>
     <item>
      <widget class="DragWidget" name="horizontalWidget" native="true">
@@ -283,9 +276,6 @@
      </widget>
     </item>
    </layout>
-   <zorder>horizontalWidget_2</zorder>
-   <zorder>m_pLabelPicShow</zorder>
-   <zorder>horizontalWidget</zorder>
   </widget>
   <widget class="QStatusBar" name="statusBar">
    <property name="sizeGripEnabled">
@@ -299,6 +289,12 @@
    <class>DragWidget</class>
    <extends>QWidget</extends>
    <header>dragwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>PicDisplayWidget</class>
+   <extends>QWidget</extends>
+   <header>picdisplaywidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
@@ -320,76 +316,8 @@
     </hint>
    </hints>
   </connection>
-  <connection>
-   <sender>m_pBtnScaleUp</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>onScaleUp()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>122</x>
-     <y>583</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>1058</x>
-     <y>612</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>m_pBtnScaleDown</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>onScaleDown()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>218</x>
-     <y>583</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>1034</x>
-     <y>600</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>m_pBtnRoateRight</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>onRotateRight()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>314</x>
-     <y>583</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>1024</x>
-     <y>539</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>m_pRotateLeft</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>onRotateRight()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>410</x>
-     <y>583</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>1076</x>
-     <y>508</y>
-    </hint>
-   </hints>
-  </connection>
  </connections>
  <slots>
   <slot>onSelectFile()</slot>
-  <slot>onScaleUp()</slot>
-  <slot>onScaleDown()</slot>
-  <slot>onRotateRight()</slot>
-  <slot>onRotateLet()</slot>
  </slots>
 </ui>
