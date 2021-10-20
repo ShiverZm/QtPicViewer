@@ -49,16 +49,16 @@ public:
 
     Action m_CurrentAction;
 
-    float m_ZoomValue;
-    float m_RotateValue;
+    float m_fZoomValue;
+    float m_fRotateValue;
 
     QAction* m_pScaleUpAction;
     QAction* m_pScaleDownAction;
     QAction* m_pRotateRightAction;
     QAction* m_pRotateLeftAction;
 
-    int m_XPtInterval;
-    int m_YPtInterval;
+    int m_nXPtInterval;
+    int m_nYPtInterval;
     QPoint m_OldPos;
     bool m_Pressed = false;
 };

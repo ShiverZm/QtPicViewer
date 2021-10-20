@@ -21,6 +21,7 @@ signals:
     void SendLoadImage();
 public slots:
        void onSelectFile();
+       void onClose();
 private:
     Ui::MainWindow *ui;
     QImage* m_pImageFrame;

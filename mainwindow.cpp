@@ -57,6 +57,11 @@ void MainWindow::onSelectFile()
     }
 }
 
+void MainWindow::onClose()
+{
+   this->close();
+}
+
 
 
 

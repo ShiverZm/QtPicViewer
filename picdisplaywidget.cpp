@@ -19,10 +19,10 @@ PicDisplayWidget::PicDisplayWidget(QWidget *parent) :
 
     m_CurrentAction = PicDisplayWidget::None;
 
-    m_ZoomValue = 1.0f;
-    m_RotateValue = 0;
-    m_XPtInterval = 0;
-    m_YPtInterval = 0;
+    m_fZoomValue = 1.0f;
+    m_fRotateValue = 0;
+    m_nXPtInterval = 0;
+    m_nYPtInterval = 0;
 
     m_pScaleUpAction = new QAction();
     m_pScaleDownAction = new QAction();
@@ -43,40 +43,7 @@ PicDisplayWidget::PicDisplayWidget(QWidget *parent) :
     connect(m_pRotateLeftAction,&QAction::triggered,
         this, &PicDisplayWidget::onRotateLeft);
 
-
     m_pImageFrame = NULL;
-
-//    QVBoxLayout *m_pVlayout = new QVBoxLayout();
-//    QVBoxLayout *m_pVlayoutDragWidget = new QVBoxLayout();
-//    DragWidget* m_dragWidget = new DragWidget();
-
-//    QPushButton* m_pBtnScaleUp = new QPushButton();
-//    QPushButton* m_pBtnScaleUp->setObjectName(QString::fromUtf8("m_pBtnScaleUp"));
-//    QPushButton* m_pBtnScaleUp->setGeometry(QRect(11, 11, 90, 40));
-//    QPushButton* m_pBtnScaleUp->setMinimumSize(QSize(0, 40));
-//    QPushButton* m_pBtnScaleUp->setMaximumSize(QSize(16777215, 40));
-//    QPushButton* m_pBtnScaleDown = new QPushButton();
-//    QPushButton* m_pBtnScaleDown->setObjectName(QString::fromUtf8("m_pBtnScaleDown"));
-//    m_pBtnScaleDown->setGeometry(QRect(108, 11, 89, 40));
-//    m_pBtnScaleDown->setMinimumSize(QSize(0, 40));
-//    m_pBtnScaleDown->setMaximumSize(QSize(16777215, 40));
-//    m_pBtnRoateRight = new QPushButton(horizontalWidget);
-//    m_pBtnRoateRight->setObjectName(QString::fromUtf8("m_pBtnRoateRight"));
-//    m_pBtnRoateRight->setGeometry(QRect(204, 11, 89, 40));
-//    m_pBtnRoateRight->setMinimumSize(QSize(0, 40));
-//    m_pBtnRoateRight->setMaximumSize(QSize(16777215, 40));
-//    m_pRotateLeft = new QPushButton(horizontalWidget);
-//    m_pRotateLeft->setObjectName(QString::fromUtf8("m_pRotateLeft"));
-//    m_pRotateLeft->setGeometry(QRect(300, 11, 89, 40));
-//    m_pRotateLeft->setMinimumSize(QSize(0, 40));
-//    m_pRotateLeft->setMaximumSize(QSize(16777215, 40));
-
-//    m_dragWidget->setLayout(m_pVlayoutDragWidget);
-
-//    m_pVlayout->addWidget(m_dragWidget);
-
-//    this->setLayout(m_pVlayout);
-
 }
 
 PicDisplayWidget::~PicDisplayWidget()
@@ -137,8 +104,8 @@ void PicDisplayWidget::mouseMoveEvent(QMouseEvent *event)
     int xPtInterval = pos.x() - m_OldPos.x();
     int yPtInterval = pos.y() - m_OldPos.y();
 
-    m_XPtInterval += xPtInterval;
-    m_YPtInterval += yPtInterval;
+    m_nXPtInterval += xPtInterval;
+    m_nYPtInterval += yPtInterval;
 
     m_OldPos = pos;
     this->update();
@@ -176,7 +143,7 @@ void PicDisplayWidget::onScaleUp()
 
     m_CurrentAction = PicDisplayWidget::ScaleUpAction;
 
-    m_ZoomValue += 0.2;
+    m_fZoomValue += 0.2;
 
     this->update();
 }
@@ -188,10 +155,10 @@ void PicDisplayWidget::onScaleDown()
 
     m_CurrentAction = PicDisplayWidget::ScaleDownAction;
 
-     m_ZoomValue -= 0.2;
-     if (m_ZoomValue <= 0)
+     m_fZoomValue -= 0.2;
+     if (m_fZoomValue <= 0)
      {
-         m_ZoomValue += 0.2;
+         m_fZoomValue += 0.2;
      }
 
      this->update();
@@ -203,7 +170,7 @@ void PicDisplayWidget::onRotateRight()
 
     m_CurrentAction = PicDisplayWidget::RotateRightAction;
 
-    m_RotateValue +=45;
+    m_fRotateValue +=45;
 
 }
 
@@ -213,7 +180,7 @@ void PicDisplayWidget::onRotateLeft()
 
     m_CurrentAction = PicDisplayWidget::RotateLeftAction;
 
-    m_RotateValue -=45;
+    m_fRotateValue -=45;
 
     update();
 }
@@ -238,10 +205,10 @@ void PicDisplayWidget::onLoadImage()
 
 
     // 平移
-    painter.translate(this->width() / 2 + m_XPtInterval, this->height() / 2 + m_YPtInterval);
+    painter.translate(this->width() / 2 + m_nXPtInterval, this->height() / 2 + m_nYPtInterval);
 
     // 缩放
-    painter.scale(m_ZoomValue, m_ZoomValue);
+    painter.scale(m_fZoomValue, m_fZoomValue);
 
     // 绘制图像
     QRect picRect(-width / 2, -height / 2, width, height);
@@ -271,10 +238,10 @@ void PicDisplayWidget::onScaleUpAction()
 
 
     // 平移
-    painter.translate(this->width() / 2 + m_XPtInterval, this->height() / 2 + m_YPtInterval);
+    painter.translate(this->width() / 2 + m_nXPtInterval, this->height() / 2 + m_nYPtInterval);
 
     // 缩放
-    painter.scale(m_ZoomValue, m_ZoomValue);
+    painter.scale(m_fZoomValue, m_fZoomValue);
 
     // 绘制图像
     QRect picRect(-width / 2, -height / 2, width, height);
@@ -300,13 +267,13 @@ void PicDisplayWidget::onScaleDownAction()
     height = qMin(height, this->height());
     width = height * 1.0 * (m_pImageFrame->width() * 1.0 / m_pImageFrame->height());
 
-    int m_XPtInterval = 0;
-    int m_YPtInterval = 0;
+    int m_nXPtInterval = 0;
+    int m_nYPtInterval = 0;
     // 平移
-    painter.translate(this->width() / 2 + m_XPtInterval, this->height() / 2 + m_YPtInterval);
+    painter.translate(this->width() / 2 + m_nXPtInterval, this->height() / 2 + m_nYPtInterval);
 
     // 缩放
-    painter.scale(m_ZoomValue, m_ZoomValue);
+    painter.scale(m_fZoomValue, m_fZoomValue);
 
     // 绘制图像
     QRect picRect(-width / 2, -height / 2, width, height);
@@ -332,14 +299,14 @@ void PicDisplayWidget::onRotateRightAction()
     height = qMin(height, this->height());
     width = height * 1.0 * (m_pImageFrame->width() * 1.0 / m_pImageFrame->height());
 
-    int m_XPtInterval = 0;
-    int m_YPtInterval = 0;
+    int m_nXPtInterval = 0;
+    int m_nYPtInterval = 0;
     // 平移
-    painter.translate(this->width() / 2 + m_XPtInterval, this->height() / 2 + m_YPtInterval);
+    painter.translate(this->width() / 2 + m_nXPtInterval, this->height() / 2 + m_nYPtInterval);
 
     // 缩放
     //painter.scale(m_ZoomValue, m_ZoomValue);
-    painter.rotate(m_RotateValue);
+    painter.rotate(m_fRotateValue);
 
     // 绘制图像
     QRect picRect(-width / 2, -height / 2, width, height);
@@ -365,14 +332,14 @@ void PicDisplayWidget::onRotateLeftAction()
     height = qMin(height, this->height());
     width = height * 1.0 * (m_pImageFrame->width() * 1.0 / m_pImageFrame->height());
 
-    int m_XPtInterval = 0;
-    int m_YPtInterval = 0;
+    int m_nXPtInterval = 0;
+    int m_nYPtInterval = 0;
     // 平移
-    painter.translate(this->width() / 2 + m_XPtInterval, this->height() / 2 + m_YPtInterval);
+    painter.translate(this->width() / 2 + m_nXPtInterval, this->height() / 2 + m_nYPtInterval);
 
     // 缩放
     //painter.scale(m_ZoomValue, m_ZoomValue);
-    painter.rotate(m_RotateValue);
+    painter.rotate(m_fRotateValue);
 
     // 绘制图像
     QRect picRect(-width / 2, -height / 2, width, height);
@@ -397,14 +364,14 @@ void PicDisplayWidget::onLoadImageAction()
     height = qMin(height, this->height());
     width = height * 1.0 * (m_pImageFrame->width() * 1.0 / m_pImageFrame->height());
 
-    int m_XPtInterval = 0;
-    int m_YPtInterval = 0;
+    int m_nXPtInterval = 0;
+    int m_nYPtInterval = 0;
     // 平移
-    painter.translate(this->width() / 2 + m_XPtInterval, this->height() / 2 + m_YPtInterval);
+    painter.translate(this->width() / 2 + m_nXPtInterval, this->height() / 2 + m_nYPtInterval);
 
     // 缩放
     //painter.scale(m_ZoomValue, m_ZoomValue);
-    painter.rotate(m_RotateValue);
+    painter.rotate(m_fRotateValue);
 
     // 绘制图像
     QRect picRect(-width / 2, -height / 2, width, height);
